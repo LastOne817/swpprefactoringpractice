@@ -1,27 +1,32 @@
 class DateCalculator
+    attr_accessor :days, :year
+    def initialize(days)
+        @days = days
+        @year = 1980
+    end
 
-    def self.convert(day) # static method. not good!
-        year = 1980
-        while (day > 365) do
-            if (year % 400 == 0 ||
-                (year % 4 == 0 && year % 100 != 0))
-                if (day > 366)
-                    day -= 366
-                    year += 1
+    def convert() # static method. not good!
+        while (@days > 365) do
+            if (@year % 400 == 0 ||
+                (@year % 4 == 0 && @year % 100 != 0))
+                if (@days > 366)
+                    @days -= 366
+                    @year += 1
                 end
             else
-                day -= 365
-                year += 1
+                @days -= 365
+                @year += 1
             end
         end
-        return year
+        return @year
     end
 
 end
 
 
 if __FILE__ == $0
-    puts DateCalculator.convert(ARGV[0].to_i)
+    year = DateCalculator.new(ARGV[0].to_i)
+    puts year.convert
 end
 
 # pseudo code
