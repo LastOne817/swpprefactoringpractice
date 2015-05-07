@@ -1,37 +1,44 @@
 class PrimeGetter
-  def self.prime_not_upper_than(n)
-    unless n.is_a? Integer
-      puts "n must be an integer."
-      return nil
-    end
-    if n < 0
-      puts "n must be greater than 0."
-      return nil
-    end
-    ar = [2]
-    i = 3
-    while (i < n) do
-      ip = true
-      ar.each do |a|
-        if (i % a == 0)
-          ip = false
-          break
-        elsif (a > Math.sqrt(i))
-          break
+    attr_accessor :num, :primes
+    def initialize(num)
+        unless num.is_a? Integer
+            puts "n must be an integer."
+            return nil
         end
-      end
-      if(ip)
-        ar.push(i)
-      end
-      i = i+1
-    end 
-    return ar
-  end
+        if num < 0
+            puts "n must be greater than 0."
+            return nil
+        end
+        @num = num
+        @primes = [2]
+    end
 
+    def get_prime
+        for i in 3..@num
+            is_prime = true
+            @primes.each do |prime|
+                if is_devisable(i, prime)
+                    is_prime = false
+                    break
+                elsif ( prime > Math.sqrt(i))
+                    break
+                end
+            end
+            if is_prime
+                @primes.push(i)
+            end
+        end 
+        return @primes 
+    end
+
+    def is_devisable(dividend, devider)
+        dividend % devider == 0
+    end
 end
 
 if __FILE__ == $0
-  puts PrimeGetter.prime_not_upper_than(ARGV[0].to_i)
+    primeGetter = PrimeGetter.new(ARGV[0].to_i)
+    puts primeGetter.get_prime
 end
 
 # Get prime numbers not upper than maximum number
